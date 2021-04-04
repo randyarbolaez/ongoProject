@@ -1,0 +1,507 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Ongo Microservice Exercise",
+        "description": "This is a Backend Challenge for Ongo",
+        "contact": {
+            "name": "Randy Arbolaez",
+            "email": "randyarbolaez@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "tags": [{
+                "name": "Auth",
+                "description": "Authenicate"
+            },
+            {
+                "name": "Admin",
+                "description": "Admin Information"
+            },
+            {
+                "name": "Task",
+                "description": "Task Functions"
+            }
+        ],
+        "servers": [{
+            "url": "http://localhost:3000/api",
+            "description": "Development server"
+        }]
+    },
+    "components": {
+        "schemas": {},
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/api/auth/signup": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "Sign up for an account",
+                "operationId": "signup",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["username", "password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sign up for an account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "password": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/authenticate": {
+            "post": {
+                "tags": ["Auth"],
+                "description": "Authenticate(login) to account",
+                "operationId": "authenticate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["username", "password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authenticate(login) to account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "password": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/users": {
+            "get": {
+                "tags": ["Admin"],
+                "description": "get every user",
+                "operationId": "getAllUsers",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "responses": {
+                        "200": {
+                            "description": "Get every user.",
+                            "content": {
+                                "application/json": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/delete/{id}": {
+            "delete": {
+                "tags": ["Admin"],
+                "description": "Delete user and their tasks.",
+                "operationId": "deleteAUserAndTheirTasks",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User has been deleted.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of user to delete",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/create": {
+            "post": {
+                "tags": ["Task"],
+                "description": "Create task.",
+                "operationId": "createTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Create task.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string"
+                                        },
+                                        "task": {
+                                            "type": "string",
+                                            "description": "The task that the user wants to create(E.g Walk dog)."
+                                        },
+                                        "user": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "task": {
+                                        "type": "string"
+                                    },
+                                    "required": [
+                                        "task"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/update/{id}": {
+            "put": {
+                "tags": ["Task"],
+                "description": "Update task.",
+                "operationId": "updateTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Update Task.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "task": {
+                                            "type": "string",
+                                            "description": "The task that the user wants to create(E.g Walk dog)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "task": {
+                                        "type": "string"
+                                    },
+                                    "required": [
+                                        "task"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to update",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/delete/{id}": {
+            "delete": {
+                "tags": ["Task"],
+                "description": "Delete task",
+                "operationId": "deleteTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Task has been deleted.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to delete",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/complete/{id}": {
+            "put": {
+                "tags": ["Task"],
+                "description": "Set a task to complete",
+                "operationId": "completeTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Task has been completed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to complete",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/incomplete/{id}": {
+            "put": {
+                "tags": ["Task"],
+                "description": "Set a task to be incomplete",
+                "operationId": "incompleteTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Task has been incompleted.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to incomplete",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/follow/{id}": {
+            "put": {
+                "tags": ["Task"],
+                "description": "Follow a task",
+                "operationId": "followTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Task has been followed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to follow",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/unfollow/{id}": {
+            "put": {
+                "tags": ["Task"],
+                "description": "Unfollow a task",
+                "operationId": "unfollowTask",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Task has been unfollowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of task to unfollow",
+                    "required": true,
+                    "schema": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "style": "simple"
+                }]
+            }
+        },
+        "/api/task/incomplete-tasks": {
+            "get": {
+                "tags": ["Task"],
+                "description": "get incomplete tasks",
+                "operationId": "getIncompleteTasks",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "responses": {
+                        "200": {
+                            "description": "Get every incomplete task.",
+                            "content": {
+                                "application/json": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/complete-tasks": {
+            "get": {
+                "tags": ["Task"],
+                "description": "get complete tasks",
+                "operationId": "getCompleteTasks",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "responses": {
+                        "200": {
+                            "description": "Get every complete task.",
+                            "content": {
+                                "application/json": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/followed-tasks": {
+            "get": {
+                "tags": ["Task"],
+                "description": "get followed tasks",
+                "operationId": "getFollowedTasks",
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "responses": {
+                    "responses": {
+                        "200": {
+                            "description": "Get every followed task.",
+                            "content": {
+                                "application/json": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
