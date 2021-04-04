@@ -18,5 +18,5 @@
 ### Step 5: Go to Swagger UI Page
 > http://localhost:3000/api-docs/
 
-### Note: If you want to see the data install the MongoDB 
+### Note: If you want to see the data, install MongoDB Compass
 > [MongoDB Compass Installation Guide](https://docs.mongodb.com/compass/current/install/)
